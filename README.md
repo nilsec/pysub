@@ -33,18 +33,22 @@ python run_singularity.py -p "python mknet.py" -s path-to-singularity-image
 
 2. Indirect call via another script:
 ```python
-from pysub import run
+from pysub import run, run_singularity
 
 run(command="python train.py",
     num_cpus=5,
     num_gpus=1,
     queue=normal,
     execute=True)
+
+run_singularity(command="python mknet.py",
+                singularity_image="path_to_image",
+                execute=True)
 ```
 
 3. Command creation and subsequent call:
 ```python
-from pysub.run import run
+from pysub import run, run_singularity
 from subprocess import check_call
 
 run_command = run(command="python train.py",
@@ -54,5 +58,12 @@ run_command = run(command="python train.py",
                   execute=False)
 
 check_call(run_command,
+           shell=True)
+
+run_singularity_command = run_singularity(command="python mknet.py",
+                                          singularity_image="path_to_image",
+                                          execute=False)
+
+check_call(run_singularity_command,
            shell=True)
 ```
