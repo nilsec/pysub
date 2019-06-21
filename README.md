@@ -25,15 +25,15 @@ mount_dirs = ""
 There are three useful ways to use pysub:
 
 1. Direct usage via command line arguments (overwrites config file defaults):
-```
-python run.py -p "python train.py" -c 5 -g 1 -q normal -s path-to-singularity-container
+```bash
+python run.py -p "python train.py" -c 5 -g 1 -q normal -s path-to-singularity-image
 
-python run_singularity 
+python run_singularity.py -p "python mknet.py" -s path-to-singularity-image
 ```
 
 2. Indirect call via another script:
 ```python
-from pysub.run import run
+from pysub import run
 
 run(command="python train.py",
     num_cpus=5,
