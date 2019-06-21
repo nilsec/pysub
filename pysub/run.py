@@ -3,6 +3,7 @@ import os
 import logging
 import numpy as np
 from subprocess import check_call
+from run_singularity import run_singularity
 
 logger = logging.getLogger(__name__)
 
@@ -60,37 +61,6 @@ p.add('-d', '--mount_dirs', required=False,
       default="")
 
 
-def run_singularity(command,
-                    working_dir,
-                    singularity_image,
-                    mount_dirs,
-                    execute=False):
-
-    if not singularity_image:
-        raise ValueError("No singularity image provided.")
-
-    if not os.path.exists(singularity_image):
-        raise ValueError("Singularity image {}" +
-                         "does not exist.".format(singularity_image))
-
-    run_command = ['singularity exec']
-    run_command += ['-B {}'.format(mount) for mount in mount_dirs]
-    run_command += ['-W {}'.format(working_dir),
-                    '--nv',
-                    singularity_image,
-                    command]
-
-    os.environ["NV_GPU"] = str(os.environ.get("CUDA_VISIBLE_DEVICES"))
-    run_command = ' '.join(run_command)
-
-    if execute:
-        print(run_command)
-        check_call(run_command,
-                   shell=True)
-    else:
-        return run_command
-
-
 def run(command,
         num_cpus=5,
         num_gpus=1,
@@ -108,8 +78,6 @@ def run(command,
         container_info = ""
         comment = ""
     else:
-        print("SM", singularity_image)
-        print(bool(singularity_image))
         container_info = ", using singularity" +\
                          "image {}".format(singularity_image)
         container_id = np.random.randint(0, 32767)
@@ -123,10 +91,9 @@ def run(command,
                                   singularity_image, mount_dirs)
 
     if execute:
-        print("Scheduling job on {} CPUs, {} GPUs," +
-              " {} MB in {}{}".format(num_cpus,
-                                      num_gpus,
-                                      memory,
+        print("Scheduling job on {} CPUs, {} GPUs,".format(num_cpus,
+                                                           num_gpus) +
+              " {} MB in {}{}".format(memory,
                                       container_info,
                                       working_dir))
 
@@ -142,8 +109,11 @@ def run(command,
 
     if not host or host == "None":
         use_host = ""
+        host = ""
     else:
         use_host = "-m"
+
+    print("HOST", host)
 
     run_command = [submit_cmd]
     if comment:

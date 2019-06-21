@@ -1,4 +1,4 @@
-#pysub
+# pysub
 Python wrapper for submitting jobs via bsub with the option to do so in a container environment. 
 
 ## Setup
