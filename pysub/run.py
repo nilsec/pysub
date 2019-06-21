@@ -3,7 +3,7 @@ import os
 import logging
 import numpy as np
 from subprocess import check_call
-from run_singularity import run_singularity
+from pysub.run_singularity import run_singularity
 
 logger = logging.getLogger(__name__)
 
@@ -124,8 +124,8 @@ def run(command,
     run_command += [command]
 
     run_command = ' '.join(run_command)
-    print(run_command)
     if execute:
+        print(run_command)
         check_call(run_command,
                    shell=True)
     else:
