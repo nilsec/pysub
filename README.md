@@ -38,7 +38,7 @@ from pysub import run, run_singularity
 run(command="python train.py",
     num_cpus=5,
     num_gpus=1,
-    queue=normal,
+    queue="normal",
     execute=True)
 
 run_singularity(command="python mknet.py",
@@ -54,7 +54,7 @@ from subprocess import check_call
 run_command = run(command="python train.py",
                   num_cpus=5,
                   num_gpus=1,
-                  queue=normal,
+                  queue="normal",
                   execute=False)
 
 check_call(run_command,
