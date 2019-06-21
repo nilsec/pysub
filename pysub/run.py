@@ -87,8 +87,8 @@ def run(command,
         if environment_variable == "None":
             environment_variable = ""
         command = environment_variable + command
-        command = run_singularity(command, working_dir,
-                                  singularity_image, mount_dirs)
+        command = run_singularity(command, singularity_image,
+                                  working_dir, mount_dirs)
 
     if execute:
         print("Scheduling job on {} CPUs, {} GPUs,".format(num_cpus,

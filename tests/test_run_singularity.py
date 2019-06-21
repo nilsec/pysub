@@ -13,8 +13,8 @@ class TestRunSingularity(unittest.TestCase):
     def test_singularity(self):
         command = 'python3.6 ./tests/am_i_in_a_container.py'
         run_singularity(command,
-                        self.working_dir,
                         self.singularity_image,
+                        self.working_dir,
                         self.mount_dirs,
                         execute=True)
 
