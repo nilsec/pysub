@@ -113,8 +113,6 @@ def run(command,
     else:
         use_host = "-m"
 
-    print("HOST", host)
-
     run_command = [submit_cmd]
     if comment:
         run_command += ["-J {}".format(comment)]
